@@ -1,0 +1,74 @@
+{% extends 'core/admin/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">
+            {% if object %}Edit{% else %}Tambah{% endif %} Data Pelanggaran
+        </h1>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-6">
+                        {{ form.siswa|as_crispy_field }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ form.jenis_pelanggaran|as_crispy_field }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        {{ form.tanggal|as_crispy_field }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ form.dibuat_oleh|as_crispy_field }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        {{ form.keterangan|as_crispy_field }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Simpan
+                    </button>
+                    <a href="{% url 'pelanggaran-list' %}" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Kembali
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+$(document).ready(function() {
+    // Inisialisasi datepicker
+    $('#id_tanggal').datepicker({
+        format: 'yyyy-mm-dd',
+        autoclose: true,
+        todayHighlight: true
+    });
+
+    // Filter siswa berdasarkan kelas
+    $('#id_siswa').select2({
+        placeholder: "Pilih Siswa",
+        allowClear: true
+    });
+
+    // Filter jenis pelanggaran
+    $('#id_jenis_pelanggaran').select2({
+        placeholder: "Pilih Jenis Pelanggaran",
+        allowClear: true
+    });
+});
+</script>
+{% endblock %}

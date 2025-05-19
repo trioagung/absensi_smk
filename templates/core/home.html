@@ -1,0 +1,48 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block content %}
+<div class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h1 class="display-4 animate__animated animate__fadeInDown">Sistem Absensi Digital</h1>
+                <p class="lead animate__animated animate__fadeInUp animate__delay-1s">SMK Muhammadiyah 1 Boyolali</p>
+                <a href="{% url 'login' %}" class="btn btn-primary btn-lg mt-3">
+                    Login
+                </a>
+            </div>
+            <div class="col-md-6">
+                <img src="{% static 'images/school.svg' %}" alt="School Illustration" class="img-fluid animate__animated animate__zoomIn animate__delay-1s">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="features-section py-5">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-4 animate__animated animate__fadeIn animate__delay-2s">
+                <div class="feature-box p-4">
+                    <i class="fas fa-clock fa-3x mb-3"></i>
+                    <h3>Absensi Real-time</h3>
+                    <p>Pantau kehadiran siswa secara real-time dengan sistem yang terintegrasi</p>
+                </div>
+            </div>
+            <div class="col-md-4 animate__animated animate__fadeIn animate__delay-3s">
+                <div class="feature-box p-4">
+                    <i class="fas fa-chart-bar fa-3x mb-3"></i>
+                    <h3>Rekap Data</h3>
+                    <p>Dapatkan rekap data absensi dan pelanggaran dengan mudah</p>
+                </div>
+            </div>
+            <div class="col-md-4 animate__animated animate__fadeIn animate__delay-4s">
+                <div class="feature-box p-4">
+                    <i class="fas fa-bell fa-3x mb-3"></i>
+                    <h3>Notifikasi</h3>
+                    <p>Dapatkan notifikasi untuk pelanggaran dan ketidakhadiran siswa</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

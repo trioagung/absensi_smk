@@ -1,0 +1,181 @@
+{% extends 'core/admin/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Dashboard Admin</h1>
+        <a href="{% url 'tambah_user' %}" class="btn btn-primary btn-icon-split">
+            <span class="icon text-white-50">
+                <i class="fas fa-plus"></i>
+            </span>
+            <span class="text">Tambah User</span>
+        </a>
+    </div>
+
+    <div class="row">
+        <!-- Card Siswa -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Total Siswa</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total_siswa }}</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-users fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card Guru -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                Total Guru</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total_guru }}</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-chalkboard-teacher fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card Absensi Hari Ini -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                Absensi Hari Ini</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ absensi_hari_ini }}</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card Pelanggaran -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                Pelanggaran Bulan Ini</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ pelanggaran_bulan_ini }}</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-exclamation-triangle fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Grafik -->
+    <div class="row">
+        <div class="col-xl-8 col-lg-7">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Statistik Absensi Bulan Ini</h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-area">
+                        <canvas id="absensiChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-4 col-lg-5">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Distribusi Pelanggaran</h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-pie pt-4 pb-2">
+                        <canvas id="pelanggaranChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Absensi Chart
+var ctx = document.getElementById('absensiChart');
+var absensiChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: ['Minggu 1', 'Minggu 2', 'Minggu 3', 'Minggu 4'],
+        datasets: [{
+            label: 'Hadir',
+            data: [120, 190, 170, 200],
+            backgroundColor: 'rgba(78, 115, 223, 0.05)',
+            borderColor: 'rgba(78, 115, 223, 1)',
+            pointBackgroundColor: 'rgba(78, 115, 223, 1)',
+            pointBorderColor: '#fff',
+            pointHoverBackgroundColor: '#fff',
+            pointHoverBorderColor: 'rgba(78, 115, 223, 1)',
+            borderWidth: 2
+        },
+        {
+            label: 'Tidak Hadir',
+            data: [10, 5, 8, 3],
+            backgroundColor: 'rgba(231, 74, 59, 0.05)',
+            borderColor: 'rgba(231, 74, 59, 1)',
+            pointBackgroundColor: 'rgba(231, 74, 59, 1)',
+            pointBorderColor: '#fff',
+            pointHoverBackgroundColor: '#fff',
+            pointHoverBorderColor: 'rgba(231, 74, 59, 1)',
+            borderWidth: 2
+        }]
+    },
+    options: {
+        maintainAspectRatio: false,
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+
+// Pelanggaran Chart
+var ctx2 = document.getElementById('pelanggaranChart');
+var pelanggaranChart = new Chart(ctx2, {
+    type: 'doughnut',
+    data: {
+        labels: ['Seragam', 'Terlambat', 'Tidak Hadir', 'Lainnya'],
+        datasets: [{
+            data: [35, 25, 20, 20],
+            backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e'],
+            hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf', '#dda20a'],
+            hoverBorderColor: "rgba(234, 236, 244, 1)",
+        }],
+    },
+    options: {
+        maintainAspectRatio: false,
+        cutout: '70%',
+    },
+});
+</script>
+{% endblock %}
